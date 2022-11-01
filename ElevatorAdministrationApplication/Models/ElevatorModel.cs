@@ -13,11 +13,6 @@
         public bool Door { get; set; }
         public int Floor { get; set; }
 
-        public enum ElevatorStatus
-        {
-            Active,
-            InActive,
-            OutOfOrder
-        }
+        public string ElevatorStatus { get; set; }
     }
 }
