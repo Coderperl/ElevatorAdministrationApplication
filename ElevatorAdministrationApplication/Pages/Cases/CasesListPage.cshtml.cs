@@ -21,12 +21,18 @@ namespace ElevatorAdministrationApplication.Pages.Cases
         
         public void OnGet()
         {
-            var httpClient = new HttpClient();
-            var data = httpClient.GetStringAsync($"https://agilewebapi.azurewebsites.net/api/case").Result;
-            Cases = JsonConvert.DeserializeObject<List<CaseViewModel>>(data);
-
-
             
+            Cases = _caseService.GetCases().Select(c => new CaseViewModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Status = c.Status,
+                CreatedBy = c.CreatedBy,
+                Technician = c.Technician,
+                CaseCreated = c.CaseCreated,
+                CaseEnded = c.CaseEnded
+
+            }).ToList();
         }
     }
 }
