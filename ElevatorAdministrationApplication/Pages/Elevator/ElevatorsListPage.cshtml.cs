@@ -17,7 +17,7 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
         {
             using var httpClient = new HttpClient();
 
-            var data = httpClient.GetStringAsync("https://localhost:7169/api/Elevator").Result;
+            var data = httpClient.GetStringAsync("https://agilewebapi.azurewebsites.net/api/Elevator").Result;
 
             var elevators = JsonConvert.DeserializeObject<List<ElevatorViewModel>>(data);
 

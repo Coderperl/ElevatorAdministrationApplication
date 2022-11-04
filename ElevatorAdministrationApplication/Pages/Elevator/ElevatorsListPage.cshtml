@@ -11,9 +11,10 @@
                 {
                     <tr>
                         <td>
-                            @elevator.Name
+                            <a asp-page="ElevatorDetailsPage" asp-route-id="@elevator.Id">
+                                @elevator.Name
+                            </a>
                         </td>
-
                         @if (elevator.ElevatorStatus == "Active")
                         {
                             <td class="bg-success">
