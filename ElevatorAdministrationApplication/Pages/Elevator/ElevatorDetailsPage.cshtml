@@ -2,3 +2,61 @@
 @model ElevatorAdministrationApplication.Pages.Elevator.ElevatorDetailsPageModel
 @{
 }
+
+<div class="d-flex justify-content-around">
+    <div class="flex-row w-auto">
+        <h1>@Model.Name</h1>
+
+        <h2>Commands</h2>
+        <div style="width: 350px">
+            <div class="d-flex justify-content-between">
+                <p class="m-2">Reboot</p>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <p class="m-2">Turn off</p>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <h2>Door</h2>
+
+            <div class="d-flex justify-content-between">
+                <p class="m-2">Open</p>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <h2>Floor</h2>
+
+            <select name="floor" style="width: 100%;">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+    </div>
+    <div class="flex-row">
+        <h1>Details</h1>
+
+        <h2>Address</h2>
+        <p>@Model.Address</p>
+
+        <h2>Last inspected</h2>
+        <p>@Model.LastInspection.Year-@Model.LastInspection.Month-@Model.LastInspection.Day</p>
+
+        <h2>Next inspection</h2>
+        <p>@Model.NextInspection.Year-@Model.NextInspection.Month-@Model.NextInspection.Day</p>
+
+        <h2>Maximum weight</h2>
+        <p>@Model.MaximumWeight Kg</p>
+    </div>
+</div>
