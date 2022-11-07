@@ -42,7 +42,7 @@ namespace ElevatorAdministrationApplication.Service
             var payload = JsonConvert.SerializeObject(createCase);
             var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
             var httpClient = new HttpClient();
-            var data = httpClient.PostAsJsonAsync($"https://agilewebapi.azurewebsites.net/api/case", httpContent).Result;
+            var data = httpClient.PostAsync($"https://agilewebapi.azurewebsites.net/api/case", httpContent).Result;
             if (data.IsSuccessStatusCode)
             {
                 return Status.Ok;
