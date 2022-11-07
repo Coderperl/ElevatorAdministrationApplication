@@ -5,7 +5,7 @@
 
 <div class="d-flex justify-content-around">
     <div class="flex-row w-auto">
-        <h1>@Model.Name</h1>
+        <h1>@Model.elevator.Name</h1>
 
         <h2>Commands</h2>
         <div style="width: 350px">
@@ -48,15 +48,15 @@
         <h1>Details</h1>
 
         <h2>Address</h2>
-        <p>@Model.Address</p>
+        <p>@Model.elevator.Address</p>
 
         <h2>Last inspected</h2>
-        <p>@Model.LastInspection.Year-@Model.LastInspection.Month-@Model.LastInspection.Day</p>
+        <p>@Model.elevator.LastInspection.Year-@Model.elevator.LastInspection.Month-@Model.elevator.LastInspection.Day</p>
 
         <h2>Next inspection</h2>
-        <p>@Model.NextInspection.Year-@Model.NextInspection.Month-@Model.NextInspection.Day</p>
+        <p>@Model.elevator.NextInspection.Year-@Model.elevator.NextInspection.Month-@Model.elevator.NextInspection.Day</p>
 
         <h2>Maximum weight</h2>
-        <p>@Model.MaximumWeight Kg</p>
+        <p>@Model.elevator.MaximumWeight Kg</p>
     </div>
 </div>

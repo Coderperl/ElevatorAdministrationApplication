@@ -1,3 +1,5 @@
+using ElevatorAdministrationApplication.Models.ViewModels;
+using ElevatorAdministrationApplication.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -6,36 +8,30 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
 {
     public class ElevatorDetailsPageModel : PageModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public DateTime LastInspection { get; set; }
-        public DateTime NextInspection { get; set; }
-        public string MaximumWeight { get; set; }
-        public bool Reboot { get; set; }
-        public bool ShutDown { get; set; }
-        public bool Door { get; set; }
-        public int Floor { get; set; }
-        public string ElevatorStatus { get; set; }
+        private readonly IElevatorService _elevatorService;
+        public ElevatorDetailsPageModel(IElevatorService elevatorService)
+        {
+            _elevatorService = elevatorService;
+        }
+
+        public ElevatorViewModel elevator;
         public void OnGet(int id)
         {
-            using var httpClient = new HttpClient();
+            elevator = new ElevatorViewModel();
 
-            var data = httpClient.GetStringAsync($"https://agilewebapi.azurewebsites.net/api/Elevator/{id}").Result;
+            var result = _elevatorService.GetElevator(id);
             
-            var result = JsonConvert.DeserializeObject<ElevatorDetailsPageModel>(data);
-
-            Id = id;
-            Name = result.Name;
-            Address = result.Address;
-            LastInspection = result.LastInspection;
-            NextInspection = result.NextInspection;
-            MaximumWeight = result.MaximumWeight;
-            Reboot = result.Reboot;
-            ShutDown = result.ShutDown;
-            Door = result.Door;
-            Floor = result.Floor;
-            ElevatorStatus = result.ElevatorStatus;
+            elevator.Id = result.Id;
+            elevator.Name = result.Name;
+            elevator.Address = result.Address;
+            elevator.LastInspection = result.LastInspection;
+            elevator.NextInspection = result.NextInspection;
+            elevator.MaximumWeight = result.MaximumWeight;
+            elevator.Reboot = result.Reboot;
+            elevator.ShutDown = result.ShutDown;
+            elevator.Door = result.Door;
+            elevator.Floor = result.Floor;
+            elevator.ElevatorStatus = result.ElevatorStatus;
         }
     }
 }
