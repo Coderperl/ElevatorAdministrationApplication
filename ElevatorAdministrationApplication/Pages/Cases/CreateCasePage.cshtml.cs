@@ -25,7 +25,6 @@ namespace ElevatorAdministrationApplication.Pages.Cases
         public int TechnicianId { get; set; }
         public CommentModel Comment { get; set; } 
         public string Status { get; set; }
-        public int CreatedBy { get; set; }
         public DateTime CaseCreated { get; set; }
         public DateTime CaseEnded { get; set; }
         public List<SelectListItem> AllStatus { get; set; }
@@ -36,17 +35,6 @@ namespace ElevatorAdministrationApplication.Pages.Cases
             SetLists();
         }
 
-    //    "name": "string",
-    //    "elevatorId": 0,
-    //    "technicianId": 0,
-    //    "comment": {
-    //        "id": 0,
-    //        "issue": "string"
-    //    },
-    //   "status": "string",
-    //   "createdBy": 0,
-    //"caseCreated": "2022-11-07T12:15:00.356Z",
-    //"caseEnded": "2022-11-07T12:15:00.356Z"
         public IActionResult OnPost()
         {
             
@@ -57,13 +45,11 @@ namespace ElevatorAdministrationApplication.Pages.Cases
                     createCase.Name = Name;
                     createCase.ElevatorId = ElevatorId;
                     createCase.TechnicianId = TechnicianId;
-                    createCase.Comments = new List<CommentModel>()
-                    {
+                    createCase.Comment =
                         new CommentModel()
                         {
                             Issue = Comment.Issue
-                        },
-                    };
+                        };
                     createCase.Status = Status;
                     createCase.CreatedBy = TechnicianId;
                     createCase.CaseCreated = CaseCreated;

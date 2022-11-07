@@ -10,8 +10,8 @@ namespace ElevatorAdministrationApplication.Models.ViewModels
         public int ElevatorId { get; set; }
         [JsonProperty("technicianId")]
         public int TechnicianId { get; set; }
-        [JsonProperty("comments")]
-        public List<CommentModel> Comments { get; set; }
+        [JsonProperty("comment")]
+        public CommentModel Comment { get; set; }
         [JsonProperty("status")]
         public string Status { get; set; }
         [JsonProperty("createdBy")]
