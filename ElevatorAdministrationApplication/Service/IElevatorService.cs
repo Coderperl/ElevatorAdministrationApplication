@@ -5,7 +5,7 @@ namespace ElevatorAdministrationApplication.Service
 {
     public interface IElevatorService
     {
-        public ElevatorViewModel GetElevator(int id);
-        public List<ElevatorListViewModel> GetElevators();
+        public ElevatorModel GetElevator(int id);
+        public List<ElevatorModel> GetElevators();
     }
 }
