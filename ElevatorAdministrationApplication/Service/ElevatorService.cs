@@ -7,22 +7,22 @@ namespace ElevatorAdministrationApplication.Service
 {
     public class ElevatorService : IElevatorService
     {
-        public ElevatorViewModel GetElevator(int id)
+        public ElevatorModel GetElevator(int id)
         {
             using var httpClient = new HttpClient();
 
             var data = httpClient.GetStringAsync($"https://agilewebapi.azurewebsites.net/api/Elevator/{id}").Result;
 
-            return JsonConvert.DeserializeObject<ElevatorViewModel>(data);
+            return JsonConvert.DeserializeObject<ElevatorModel>(data);
         }
 
-        public List<ElevatorListViewModel> GetElevators()
+        public List<ElevatorModel> GetElevators()
         {
             using var httpClient = new HttpClient();
 
             var data = httpClient.GetStringAsync("https://agilewebapi.azurewebsites.net/api/Elevator").Result;
 
-            return JsonConvert.DeserializeObject<List<ElevatorListViewModel>>(data);
+            return JsonConvert.DeserializeObject<List<ElevatorModel>>(data);
         }
     }
 }

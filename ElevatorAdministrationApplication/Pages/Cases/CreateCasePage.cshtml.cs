@@ -7,20 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ElevatorAdministrationApplication.Pages.Cases
 {
+    [BindProperties]
     public class CreateCasePageModel : PageModel
     {
         private readonly ICaseService _caseService;
         private readonly ITechnicianService _technicianService;
+        private readonly IElevatorService _elevatorService;
 
-        public CreateCasePageModel(ICaseService caseService, ITechnicianService technicianService)
+        public CreateCasePageModel(ICaseService caseService, ITechnicianService technicianService, IElevatorService elevatorService)
         {
             _caseService = caseService;
             _technicianService = technicianService;
+            _elevatorService = elevatorService;
         }
         public string Name { get; set; }
         public int ElevatorId{ get; set; }
         public int TechnicianId { get; set; }
-        public CommentModel Comment { get; set; } = new CommentModel();
+        public CommentModel Comment { get; set; } 
         public string Status { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CaseCreated { get; set; }
@@ -33,23 +36,38 @@ namespace ElevatorAdministrationApplication.Pages.Cases
             SetLists();
         }
 
+    //    "name": "string",
+    //    "elevatorId": 0,
+    //    "technicianId": 0,
+    //    "comment": {
+    //        "id": 0,
+    //        "issue": "string"
+    //    },
+    //   "status": "string",
+    //   "createdBy": 0,
+    //"caseCreated": "2022-11-07T12:15:00.356Z",
+    //"caseEnded": "2022-11-07T12:15:00.356Z"
         public IActionResult OnPost()
         {
+            
             if (ModelState.IsValid)
             {
-                var createCase = new CaseModel();
+                var createCase = new CreateCaseViewModel();
                 {
                     createCase.Name = Name;
-                    createCase.Elevator.Id = ElevatorId;
-                    createCase.Technician.Id = TechnicianId;
+                    createCase.ElevatorId = ElevatorId;
+                    createCase.TechnicianId = TechnicianId;
                     createCase.Comments = new List<CommentModel>()
                     {
-                        Comment
+                        new CommentModel()
+                        {
+                            Issue = Comment.Issue
+                        },
                     };
+                    createCase.Status = Status;
+                    createCase.CreatedBy = TechnicianId;
                     createCase.CaseCreated = CaseCreated;
                     createCase.CaseEnded = CaseEnded;
-                    createCase.CreatedBy = CreatedBy;
-                    createCase.Status = Status;
                     _caseService.CreateCase(createCase);
                     return RedirectToPage("/Cases/CasesListPage");
                 }
@@ -61,6 +79,7 @@ namespace ElevatorAdministrationApplication.Pages.Cases
         {
             SetAllStatus();
             AllTechnicians = SetAllTechnicians();
+            AllElevators = SetAllElevators();
         }
         public void SetAllStatus()
         {
@@ -68,13 +87,19 @@ namespace ElevatorAdministrationApplication.Pages.Cases
             {
                 new SelectListItem()
                 {
-                    Text = "InActive",
-                    Value = "InActive"
+                    Text = "Not Started",
+                    Value = "Not Started"
                 },
                 new SelectListItem()
                 {
-                    Text = "Active",
-                    Value = "Active"
+                    Text = "Started",
+                    Value = "Started"
+                },
+                
+                new SelectListItem()
+                {
+                    Text = "Resolved",
+                    Value = "Resolved"
                 },
             };
         }
@@ -98,21 +123,24 @@ namespace ElevatorAdministrationApplication.Pages.Cases
             }
             return list;
         }
-        //public void SetAllElevators()
-        //{
-        //    var elevators = new List<ElevatorModel>();
-        //    foreach (var elevator in elevators)
-        //    {
-        //        var elev = _caseService.GetCases().Select(x => x.Elevator == elevator);
-        //        AllElevators = new List<SelectListItem>
-        //        {
-        //            new SelectListItem()
-        //            {
-        //                Text = elev.ToString(),
-        //                Value = Elevator.Name
-        //            },
-        //        };
-        //    }
-        //}
+        public List<SelectListItem> SetAllElevators()
+        {
+            var list = new List<SelectListItem>();
+            var e = _elevatorService.GetElevators();
+            list.Add(new SelectListItem
+            {
+                Text = "Select Elevator",
+                Value = 0.ToString()
+            });
+            foreach (var tech in e)
+            {
+                list.Add(new SelectListItem
+                {
+                    Text = tech.Name,
+                    Value = tech.Id.ToString()
+                });
+            }
+            return list;
+        }
     }
 }

@@ -20,9 +20,6 @@ namespace ElevatorAdministrationApplication.Pages.Cases
 		public DateTime CaseCreated { get; set; }
 		public DateTime CaseEnded { get; set; }
 
-		public CaseViewModel caseViewModel { get; set; } 
-
-
         public CaseDetailsPageModel(ICaseService caseService)
         {
             _caseService = caseService;

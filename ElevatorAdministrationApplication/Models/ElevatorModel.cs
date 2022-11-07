@@ -12,7 +12,6 @@
         public bool ShutDown { get; set; }
         public bool Door { get; set; }
         public int Floor { get; set; }
-
         public string ElevatorStatus { get; set; }
     }
 }

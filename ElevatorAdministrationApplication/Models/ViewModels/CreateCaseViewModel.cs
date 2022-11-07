@@ -1,15 +1,24 @@
-﻿namespace ElevatorAdministrationApplication.Models.ViewModels
+﻿using Newtonsoft.Json;
+
+namespace ElevatorAdministrationApplication.Models.ViewModels
 {
     public class CreateCaseViewModel
     {
-        public int Id { get; set; }
+        [JsonProperty("name")]
         public string Name { get; set; }
-        public ElevatorModel Elevator { get; set; }
-        public TechnicianModel Technician { get; set; }
-        public CommentModel Comment { get; set; }
+        [JsonProperty("elevatorId")]
+        public int ElevatorId { get; set; }
+        [JsonProperty("technicianId")]
+        public int TechnicianId { get; set; }
+        [JsonProperty("comments")]
+        public List<CommentModel> Comments { get; set; }
+        [JsonProperty("status")]
         public string Status { get; set; }
+        [JsonProperty("createdBy")]
         public int CreatedBy { get; set; }
+        [JsonProperty("caseCreated")]
         public DateTime CaseCreated { get; set; }
+        [JsonProperty("caseEnded")]
         public DateTime CaseEnded { get; set; }
     }
 }
