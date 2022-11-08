@@ -1,28 +1,37 @@
+using ElevatorAdministrationApplication.Models.ViewModels;
+using ElevatorAdministrationApplication.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace ElevatorAdministrationApplication.Pages.Elevator
 {
     public class ElevatorDetailsPageModel : PageModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public DateTime LastInspection { get; set; }
-        public DateTime NextInspection { get; set; }
-        public string MaximumWeight { get; set; }
-        public bool Reboot { get; set; }
-        public bool ShutDown { get; set; }
-        public bool Door { get; set; }
-        public int Floor { get; set; }
-        public enum ElevatorStatus
+        private readonly IElevatorService _elevatorService;
+        public ElevatorDetailsPageModel(IElevatorService elevatorService)
         {
-            Active,
-            InActive,
-            OutOfOrder
+            _elevatorService = elevatorService;
         }
-        public void OnGet()
+
+        public ElevatorViewModel elevator;
+        public void OnGet(int id)
         {
+            elevator = new ElevatorViewModel();
+
+            var result = _elevatorService.GetElevator(id);
+            
+            elevator.Id = result.Id;
+            elevator.Name = result.Name;
+            elevator.Address = result.Address;
+            elevator.LastInspection = result.LastInspection;
+            elevator.NextInspection = result.NextInspection;
+            elevator.MaximumWeight = result.MaximumWeight;
+            elevator.Reboot = result.Reboot;
+            elevator.ShutDown = result.ShutDown;
+            elevator.Door = result.Door;
+            elevator.Floor = result.Floor;
+            elevator.ElevatorStatus = result.ElevatorStatus;
         }
     }
 }

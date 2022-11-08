@@ -1,28 +1,38 @@
+using ElevatorAdministrationApplication.Data;
 using ElevatorAdministrationApplication.Models;
+using ElevatorAdministrationApplication.Models.ViewModels;
+using ElevatorAdministrationApplication.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace ElevatorAdministrationApplication.Pages.Cases
 {
     public class CasesListPageModel : PageModel
     {
-        public List<CaseViewModel> Cases { get; set; }
-        public class CaseViewModel
+        private readonly ApplicationDbContext _context;
+        private readonly ICaseService _caseService;
+
+        public CasesListPageModel(ICaseService caseService)
         {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public ElevatorModel Elevator { get; set; }
-            public TechnicianModel Technician { get; set; }
-            public List<CommentModel> Comments { get; set; }
-            public enum CaseStatus
-            {
-                Started,
-                NotStarted,
-                Finished
-            }
+            _caseService = caseService;
         }
+        public List<CaseViewModel> Cases { get; set; }
+        
         public void OnGet()
         {
+            
+            Cases = _caseService.GetCases().Select(c => new CaseViewModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Status = c.Status,
+                CreatedBy = c.CreatedBy,
+                Technician = c.Technician,
+                CaseCreated = c.CaseCreated,
+                CaseEnded = c.CaseEnded
+
+            }).ToList();
         }
     }
 }

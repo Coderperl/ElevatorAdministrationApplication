@@ -1,20 +1,29 @@
+using ElevatorAdministrationApplication.Models;
+using ElevatorAdministrationApplication.Models.ViewModels;
+using ElevatorAdministrationApplication.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace ElevatorAdministrationApplication.Pages.Elevator
 {
     public class ElevatorsPageModel : PageModel
     {
-        public List<ElevatorViewModel> Elevators { get; set; }
-        public class ElevatorViewModel
+        private readonly IElevatorService _elevatorService;
+        public ElevatorsPageModel(IElevatorService elevatorService)
         {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public bool ShutDown { get; set; }
+            _elevatorService = elevatorService;
         }
-        public void OnGet()
-        {
+        public List<ElevatorListViewModel> Elevators { get; set; }
 
+        public void OnGetAsync()
+        {
+            Elevators = _elevatorService.GetElevators().Select(c => new ElevatorListViewModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                ElevatorStatus = c.ElevatorStatus
+            }).ToList();
         }
     }
 }

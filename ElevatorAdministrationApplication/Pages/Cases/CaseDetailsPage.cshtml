@@ -2,3 +2,51 @@
 @model ElevatorAdministrationApplication.Pages.Cases.CaseDetailsPageModel
 @{
 }
+
+ <div class="contact-information">
+                                    <h4>Case information</h4>
+                                     <div class="address-content">
+                                        <span class="">Case number:</span>
+                                        <div class="mail-address">@Model.Id</>
+                                    </div>
+                                    <div class="address-content">
+                                        <span class="contact-title">Name:</span>
+                                        <div class="mail-address">@Model.Name</div>
+                                    </div>
+                                    <div class="phone-content">
+                                        <span class="contact-title">Elevator: </span>
+                                        <div class="phone-number">@Model.Elevator.Name</div>
+                                    </div>
+                                    <div class="address-content">
+                                        <span class="contact-title">Assigned technician:</span>
+                                        <div class="mail-address">@Model.Technician.Name</div>
+                                    </div>
+                                    <div class="address-content">
+                                        <span class="contact-title">Comments:</span>
+                                        @foreach(var comment in Model.Comments)
+                                        {
+                                            
+                                            <div class="mail-address">@comment.Issue</div>
+                                        }
+                                        
+                                    </div>
+                                    <div class="address-content">
+                                        <span class="contact-title">Status:</span>
+                                        <div class="mail-address">@Model.Status</div>
+                                    </div>
+                                    <div class="address-content">
+                                        <span class="contact-title">Created by:</span>
+                                        <div class="mail-address">@Model.CreatedBy</div>
+                                    </div>
+
+                                    <div class="email-content">
+                                        <span class="contact-title">Start date:</span>
+                                        <div class="contact-email">@Model.CaseCreated</div>
+                                    </div>
+                                    <div class="birthday-content">
+                                        <span class="contact-title">End date:</span>
+                                        <div class="birth-date">@Model.CaseEnded</div>
+                                    </div>
+        <td><a asp-page="/Cases/CaseUpdatePage" asp-route-id="@Model.Id">Edit</a></td>
+
+    </div>
