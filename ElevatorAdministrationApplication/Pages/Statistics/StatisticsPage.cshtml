@@ -4,10 +4,10 @@
 }
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-<div id="chart_div"></div>
-<div id="line_chart_div"></div>
-
+<div class="row mb-2">
+    <div class="col-md-6" id="chart_div"></div>
+    <div class="col-md-6" id="line_chart_div"></div>
+</div>
 <script type="text/javascript">
     // Load the Visualization API and the corechart package.
     google.charts.load('current', { 'packages': ['corechart', 'bar'] });
@@ -55,6 +55,7 @@
             vAxis: {
                 title: 'Nr of Cases'
             },
+            colors: ['#3355ff', '#DF0101', '#31B404'],
             pieSliceText: 'value'
         };
         // Instantiate and draw our chart, passing in some options.

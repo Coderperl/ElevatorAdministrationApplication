@@ -7,7 +7,7 @@ namespace ElevatorAdministrationApplication.Service
     {
         public CaseModel GetCase(int id);
         public List<CaseModel> GetCases();
-        public Status UpdateCases(CaseModel updateCase, int Id);
+        public Status UpdateCases(UpdateCaseViewModel updateCase, int Id);
         public Status CreateCase(CreateCaseViewModel createCase);
     }
 }

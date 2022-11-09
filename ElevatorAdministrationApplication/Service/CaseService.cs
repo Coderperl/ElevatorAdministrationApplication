@@ -23,7 +23,7 @@ namespace ElevatorAdministrationApplication.Service
 
         }
 
-        public Status UpdateCases(CaseModel updateCase, int id)
+        public Status UpdateCases(UpdateCaseViewModel updateCase, int id)
         {
             var payload = JsonConvert.SerializeObject(updateCase);
             var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
