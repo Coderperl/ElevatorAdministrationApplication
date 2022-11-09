@@ -1,24 +1,25 @@
 ﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ElevatorAdministrationApplication.Models.ViewModels
 {
     public class CreateCaseViewModel
     {
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
-        [JsonProperty("elevatorId")]
+        [JsonPropertyName("elevatorId")]
         public int ElevatorId { get; set; }
-        [JsonProperty("technicianId")]
+        [JsonPropertyName("technicianId")]
         public int TechnicianId { get; set; }
-        [JsonProperty("comment")]
+        [JsonPropertyName("comment")]
         public CommentModel Comment { get; set; }
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public string Status { get; set; }
-        [JsonProperty("createdBy")]
+        [JsonPropertyName("createdBy")]
         public int CreatedBy { get; set; }
-        [JsonProperty("caseCreated")]
+        [JsonPropertyName("caseCreated")]
         public DateTime CaseCreated { get; set; }
-        [JsonProperty("caseEnded")]
+        [JsonPropertyName("caseEnded")]
         public DateTime CaseEnded { get; set; }
     }
 }

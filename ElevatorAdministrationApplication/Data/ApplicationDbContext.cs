@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ElevatorAdministrationApplication.Models;
 
 namespace ElevatorAdministrationApplication.Data
 {
@@ -9,5 +10,6 @@ namespace ElevatorAdministrationApplication.Data
             : base(options)
         {
         }
+        public DbSet<ElevatorAdministrationApplication.Models.CaseModel> CaseModel { get; set; }
     }
 }
