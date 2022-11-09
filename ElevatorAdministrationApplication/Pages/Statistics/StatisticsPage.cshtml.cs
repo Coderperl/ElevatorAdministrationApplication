@@ -1,4 +1,6 @@
 using ElevatorAdministrationApplication.Models;
+using ElevatorAdministrationApplication.Models.ViewModels;
+using ElevatorAdministrationApplication.Service;
 using Google.DataTable.Net.Wrapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,24 +12,34 @@ namespace ElevatorAdministrationApplication.Pages.Statistics
 {
     public class StatisticsPageModel : PageModel
     {
-        
+        private readonly ICaseService _caseService;
+        private readonly ITechnicianService _technicianService;
+        private readonly IElevatorService _elevatorService;
+
+        public StatisticsPageModel(ICaseService caseService, ITechnicianService technicianService, IElevatorService elevatorService)
+        {
+            _caseService = caseService;
+            _technicianService = technicianService;
+            _elevatorService = elevatorService;
+        }
+
         public void OnGetAsync()
         {
             
         }
-        private async Task<ElevatorModel[]> AllElevatorsAsync()
+        private async Task<ElevatorListViewModel[]> AllElevatorsAsync()
         {
             HttpClient client = new HttpClient();
             var stream = client.GetStreamAsync("https://agilewebapi.azurewebsites.net/api/Elevator");
-            var data = await JsonSerializer.DeserializeAsync<ElevatorModel[]>(await stream);
+            var data = await JsonSerializer.DeserializeAsync<ElevatorListViewModel[]>(await stream);
 
             return data;
         }
-        private async Task<CaseModel[]> AllCasesAsync()
+        private async Task<CreateCaseViewModel[]> AllCasesAsync()
         {
             HttpClient client = new HttpClient();
             var stream = client.GetStreamAsync("https://agilewebapi.azurewebsites.net/api/Case");
-            var data = await JsonSerializer.DeserializeAsync<CaseModel[]>(await stream);
+            var data = await JsonSerializer.DeserializeAsync<CreateCaseViewModel[]>(await stream);
 
             return data;
         }
@@ -46,7 +58,7 @@ namespace ElevatorAdministrationApplication.Pages.Statistics
             var dt = new Google.DataTable.Net.Wrapper.DataTable();
             dt.AddColumn(new Column(ColumnType.String, "Status", "Status"));
             dt.AddColumn(new Column(ColumnType.Number, "Active", "Active"));
-            dt.AddColumn(new Column(ColumnType.Number, "InActive", "InActive"));
+            dt.AddColumn(new Column(ColumnType.Number, "Not Active", "Not Active"));
 
             var row1 = dt.NewRow();
             row1.AddCell(new Cell("Status"));
@@ -61,12 +73,23 @@ namespace ElevatorAdministrationApplication.Pages.Statistics
             var cases = await AllCasesAsync();
             int started = 0;
             int notstarted = 0;
-
-            var data = cases.Select(a => new
+            int resolved = 0;
+            foreach (var item in cases)
             {
-                Status = a.Status.Equals("Started") ? ++started :++notstarted
-
-            }).ToList();
+                if (item.Status == "Started")
+                {
+                    ++started;
+                }
+                else if (item.Status == "Resolved")
+                {
+                    ++resolved;
+                }
+                else
+                {
+                    ++notstarted;
+                }
+            }
+            
             var dt = new Google.DataTable.Net.Wrapper.DataTable();
             dt.AddColumn(new Column(ColumnType.String, "Name", "Name"));
             dt.AddColumn(new Column(ColumnType.Number, "Status", "Status"));
@@ -80,6 +103,12 @@ namespace ElevatorAdministrationApplication.Pages.Statistics
             row2.AddCell(new Cell("Not Started"));
             row2.AddCell(new Cell(notstarted));
             dt.AddRow(row2);
+
+            var row3 = dt.NewRow();
+            row3.AddCell(new Cell("Resolved"));
+            row3.AddCell(new Cell(resolved));
+            
+            dt.AddRow(row3);
 
             return Content(dt.GetJson());
         }
