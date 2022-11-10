@@ -48,8 +48,9 @@ namespace ElevatorAdministrationApplication.Pages.Cases
                     createCase.Comment =
                         new CommentModel()
                         {
-                            Issue = Comment.Issue
+                            Issue = Comment.Issue + $"Case Created by {_technicianService.GetTechnician(TechnicianId).Name}"
                         };
+                    
                     createCase.Status = Status;
                     createCase.CreatedBy = TechnicianId;
                     createCase.CaseCreated = CaseCreated;
