@@ -45,7 +45,7 @@ namespace ElevatorAdministrationApplication.Data
 
             var user = new IdentityUser
             {
-                UserName = name,
+                UserName = name + "@gmail.com",
                 Email = name + "@gmail.com",
                 EmailConfirmed = true
             };
