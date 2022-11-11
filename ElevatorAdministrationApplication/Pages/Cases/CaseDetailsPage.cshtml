@@ -24,8 +24,7 @@
         <span><strong>Comments</strong></span>
         @foreach (var comment in Model.Comments)
         {
-            <div class="mail-address">@comment.Issue.Split("Case")[1]</div>
-            <div class="mail-address">@comment.Issue.Split("Case")[0]</div>
+            <div class="mail-address">@comment.Issue</div>
         }
     </div>
     <div class="address-content">
