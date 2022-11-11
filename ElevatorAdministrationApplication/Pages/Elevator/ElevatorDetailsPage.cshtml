@@ -37,11 +37,12 @@
 
             <h2>Floor</h2>
 
-            <select name="floor" style="width: 100%;">
+            <select class="mb-2" name="floor" style="width: 100%;">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
             </select>
+            <a class="btn btn-primary" asp-route-id="@Model.elevator.Id" asp-page="/Cases/CreateCasePage">New Case</a>
         </div>
     </div>
     <div class="flex-row">

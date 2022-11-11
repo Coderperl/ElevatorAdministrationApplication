@@ -30,8 +30,11 @@ namespace ElevatorAdministrationApplication.Pages.Cases
         public List<SelectListItem> AllStatus { get; set; }
         public List<SelectListItem> AllTechnicians { get; set; }
         public List<SelectListItem> AllElevators { get; set; }
-        public void OnGet()
+        public void OnGet(int id)
         {
+            if(id > 0)
+                ElevatorId = id;
+
             SetLists();
         }
 
