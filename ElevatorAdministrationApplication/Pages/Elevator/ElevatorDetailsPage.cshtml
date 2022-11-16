@@ -12,19 +12,19 @@
             <div class="d-flex justify-content-between">
                 <p class="m-2">Reboot</p>
                 <label class="switch">
-                    <input type="checkbox">
+                    <input type="checkbox" >
                     <span class="slider round"></span>
                 </label>
             </div>
-
+            <form method="post" asp-page-handler="InvokeMethodShutDown" asp-route-id="@Model.elevator.Id">
             <div class="d-flex justify-content-between">
                 <p class="m-2">Turn off</p>
                 <label class="switch">
-                    <input type="checkbox">
+                    <input type="checkbox" onchange="this.form.submit()" />
                     <span class="slider round"></span>
                 </label>
             </div>
-
+            </form>
             <h2>Door</h2>
 
             <div class="d-flex justify-content-between">
