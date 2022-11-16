@@ -46,8 +46,8 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
         {
             try
             {
-                 
-                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString("HostName=kyh-iothub-2.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=oj0gqypXDJVBFRzURDHu3zM7Xcu0H2AXRwl7o9/JMiw=");
+                //byt till din egna iothub connectionstring    
+                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString("HostName=agileiothub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=5g74JlXDs6ryOazaU92NYq7Xcb9FgXmSJko27ryujbY=");
 
                 var directMethod = new CloudToDeviceMethod("ShutDown");
                 directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
@@ -55,13 +55,13 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
                 
                 Id = id;
                 GetElevator(Id);
-                return Page();
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
             }
             catch 
             {
                 Id = id;
-                GetElevator(Id); 
-                return Page(); 
+                GetElevator(Id);
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
             }
             
 
