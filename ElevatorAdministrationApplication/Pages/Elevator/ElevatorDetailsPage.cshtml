@@ -20,7 +20,7 @@
             <div class="d-flex justify-content-between">
                 <p class="m-2">Turn off</p>
                 <label class="switch">
-                    <input type="checkbox" onchange="this.form.submit()" />
+                    <input type="checkbox" checked="@Model.elevator.ShutDown" onchange="this.form.submit()" />
                     <span class="slider round"></span>
                 </label>
             </div>
@@ -39,7 +39,7 @@
 
             <select class="mb-2" name="floor" style="width: 100%;">
                 <option value="1">1</option>
-                <option value="2">2</option>
+                <option value="2">2</option> 
                 <option value="3">3</option>
             </select>
             <a class="btn btn-primary" asp-route-id="@Model.elevator.Id" asp-page="/Cases/CreateCasePage">New Case</a>
