@@ -9,13 +9,15 @@
 
         <h2>Commands</h2>
         <div style="width: 350px">
-            <div class="d-flex justify-content-between">
-                <p class="m-2">Reboot</p>
-                <label class="switch">
-                    <input type="checkbox" >
-                    <span class="slider round"></span>
-                </label>
-            </div>
+            <form method="post" asp-page-handler="InvokeMethodReset" asp-route-id="@Model.elevator.Id">
+                <div class="d-flex justify-content-between">
+                    <p class="m-2">Reset</p>
+                    <label class="switch">
+                        <input type="checkbox" checked="@Model.elevator.Reboot" onchange="this.form.submit()" />
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </form>
             <form method="post" asp-page-handler="InvokeMethodShutDown" asp-route-id="@Model.elevator.Id">
             <div class="d-flex justify-content-between">
                 <p class="m-2">Turn off</p>
