@@ -12,7 +12,7 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
     {
         //byt till din egna iothub connectionstring
         private readonly string IotHub =
-            "HostName=Fredriks-IoTHub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=oTaXRPi71jD6g3fi11SX0GUcrlnMq9IeJWpPaV/utSQ=";
+            "HostName=CoderPer-IotHub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=ma+LRFaad+UGhf/jh36X7aYMV2DlhsJ45OLbAnkzkrU=";
 
         private readonly IElevatorService _elevatorService;
 
