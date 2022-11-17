@@ -42,6 +42,9 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
             elevator.ShutDown = result.ShutDown;
             elevator.Door = result.Door;
             elevator.Floor = result.Floor;
+            elevator.MaxFloor = result.MaxFloor;
+            elevator.MinFloor = result.MinFloor;
+            elevator.ElevatorType = result.ElevatorType;
             elevator.ElevatorStatus = result.ElevatorStatus;
         }
 
@@ -49,9 +52,9 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
         {
             try
             {
-                //byt till din egna iothub connectionstring i IotHub l‰ngst upp
-                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
 
+                //byt till din egna iothub connectionstring i IotHub l√§ngst upp
+                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
                 var directMethod = new CloudToDeviceMethod("ShutDown");
                 directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
                 await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
@@ -66,6 +69,33 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
                 GetElevator(Id);
                 return RedirectToPage("ElevatorDetailsPage", new { id = Id });
             }
+
+        }
+        public async Task<IActionResult> OnPostInvokeMethodReset(int id)
+        {
+            try
+            {
+                //byt till din egna iothub connectionstring    
+                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString("HostName=kyh-funapp-iothub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=H21+QXAX6wXddKm3DdQnAqxkupEmaMGXuacb5q0SDBI=");
+
+                var directMethod = new CloudToDeviceMethod("Reset");
+                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
+                await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
+
+                Id = id;
+                GetElevator(Id);
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
+            }
+            catch
+            {
+                Id = id;
+                GetElevator(Id);
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
+            }
+
+
+        }
+    }
         }
 
 		public async Task<IActionResult> OnPostInvokeDirectMethodDoorAction(int id)
