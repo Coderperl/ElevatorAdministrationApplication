@@ -29,13 +29,15 @@
             </form>
             <h2>Door</h2>
 
-            <div class="d-flex justify-content-between">
-                <p class="m-2">Open</p>
-                <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-                </label>
-            </div>
+            <form method="post" asp-page-handler="InvokeDirectMethodDoorAction" asp-route-id="@Model.elevator.Id">
+                <div class="d-flex justify-content-between">
+                    <p class="m-2">Open/Close doors</p>
+                    <label class="switch">
+                        <input type="checkbox" checked="@Model.elevator.Door" onchange="this.form.submit()" />
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </form>
 
             <h2>Floor</h2>
 
