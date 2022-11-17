@@ -10,16 +10,20 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
     [BindProperties]
     public class ElevatorDetailsPageModel : PageModel
     {
-		//byt till din egna iothub connectionstring
-		private readonly string IotHub = "HostName=Fredriks-IoTHub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=oTaXRPi71jD6g3fi11SX0GUcrlnMq9IeJWpPaV/utSQ=";
-     
+        //byt till din egna iothub connectionstring
+        private readonly string IotHub =
+            "HostName=Fredriks-IoTHub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=oTaXRPi71jD6g3fi11SX0GUcrlnMq9IeJWpPaV/utSQ=";
+
         private readonly IElevatorService _elevatorService;
+
         public ElevatorDetailsPageModel(IElevatorService elevatorService)
         {
             _elevatorService = elevatorService;
         }
+
         public int Id { get; set; }
         public ElevatorViewModel elevator;
+
         public void OnGet(int id)
         {
             Id = id;
@@ -56,69 +60,70 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
                 //byt till din egna iothub connectionstring i IotHub längst upp
                 using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
                 var directMethod = new CloudToDeviceMethod("ShutDown");
-                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
-                await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
-                
-                Id = id;
-                GetElevator(Id);
-                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
-            }
-            catch 
-            {
-                Id = id;
-                GetElevator(Id);
-                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
-            }
-
-        }
-        public async Task<IActionResult> OnPostInvokeMethodReset(int id)
-        {
-            try
-            {
-                //byt till din egna iothub connectionstring    
-                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString("HostName=kyh-funapp-iothub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=H21+QXAX6wXddKm3DdQnAqxkupEmaMGXuacb5q0SDBI=");
-
-                var directMethod = new CloudToDeviceMethod("Reset");
-                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
+                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new {id = id}));
                 await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
 
                 Id = id;
                 GetElevator(Id);
-                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
+                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
             }
             catch
             {
                 Id = id;
                 GetElevator(Id);
-                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
+                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
+            }
+
+        }
+
+        public async Task<IActionResult> OnPostInvokeMethodReset(int id)
+        {
+            try
+            {
+                //byt till din egna iothub connectionstring    
+                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
+
+                var directMethod = new CloudToDeviceMethod("Reset");
+                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new {id = id}));
+                await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
+
+                Id = id;
+                GetElevator(Id);
+                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
+            }
+            catch
+            {
+                Id = id;
+                GetElevator(Id);
+                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
             }
 
 
         }
-    }
+
+        public async Task<IActionResult> OnPostInvokeDirectMethodDoorAction(int id)
+        {
+            try
+            {
+                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
+
+                var directMethod = new CloudToDeviceMethod("DoorAction");
+                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new {id = id}));
+                await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
+
+                Id = id;
+                GetElevator(Id);
+                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
+            }
+            catch
+            {
+                Id = id;
+                GetElevator(Id);
+                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
+            }
         }
-
-		public async Task<IActionResult> OnPostInvokeDirectMethodDoorAction(int id)
-		{
-			try
-			{
-				using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
-
-				var directMethod = new CloudToDeviceMethod("DoorAction");
-				directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
-				await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
-
-				Id = id;
-				GetElevator(Id);
-				return RedirectToPage("ElevatorDetailsPage", new { id = Id });
-			}
-			catch
-			{
-				Id = id;
-				GetElevator(Id);
-				return RedirectToPage("ElevatorDetailsPage", new { id = Id });
-			}
-		}
-
-	}
+    }
 }
+
+		
+
