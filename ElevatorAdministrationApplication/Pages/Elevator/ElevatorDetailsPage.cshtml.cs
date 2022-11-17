@@ -10,6 +10,9 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
     [BindProperties]
     public class ElevatorDetailsPageModel : PageModel
     {
+		//byt till din egna iothub connectionstring
+		private readonly string IotHub = "HostName=Fredriks-IoTHub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=oTaXRPi71jD6g3fi11SX0GUcrlnMq9IeJWpPaV/utSQ=";
+     
         private readonly IElevatorService _elevatorService;
         public ElevatorDetailsPageModel(IElevatorService elevatorService)
         {
@@ -46,8 +49,8 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
         {
             try
             {
-                //byt till din egna iothub connectionstring    
-                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString("HostName=agileiothub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=5g74JlXDs6ryOazaU92NYq7Xcb9FgXmSJko27ryujbY=");
+                //byt till din egna iothub connectionstring i IotHub längst upp
+                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
 
                 var directMethod = new CloudToDeviceMethod("ShutDown");
                 directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
@@ -63,9 +66,29 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
                 GetElevator(Id);
                 return RedirectToPage("ElevatorDetailsPage", new { id = Id });
             }
-            
-
         }
-        
-    }
+
+		public async Task<IActionResult> OnPostInvokeDirectMethodDoorAction(int id)
+		{
+			try
+			{
+				using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
+
+				var directMethod = new CloudToDeviceMethod("DoorAction");
+				directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
+				await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
+
+				Id = id;
+				GetElevator(Id);
+				return RedirectToPage("ElevatorDetailsPage", new { id = Id });
+			}
+			catch
+			{
+				Id = id;
+				GetElevator(Id);
+				return RedirectToPage("ElevatorDetailsPage", new { id = Id });
+			}
+		}
+
+	}
 }
