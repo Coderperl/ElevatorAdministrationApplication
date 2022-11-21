@@ -5,20 +5,20 @@ using Newtonsoft.Json;
 
 namespace ElevatorAdministrationApplication.Service
 {
-    public class CaseService :ICaseService 
+    public class CaseService :ICaseService
     {
-        
+        private readonly string ApiUri = "https://localhost:7169/api/case/";
         public CaseModel GetCase(int id)
         {
             var httpClient = new HttpClient();
-            var data = httpClient.GetStringAsync($"https://agilewebapi.azurewebsites.net/api/case/{id}").Result;
+            var data = httpClient.GetStringAsync($"{ApiUri}{id}").Result;
             return JsonConvert.DeserializeObject<CaseModel>(data);
         }
 
         public List<CaseModel> GetCases()
         {
             var httpClient = new HttpClient();
-            var data = httpClient.GetStringAsync($"https://agilewebapi.azurewebsites.net/api/case").Result;
+            var data = httpClient.GetStringAsync($"{ApiUri}").Result;
             return JsonConvert.DeserializeObject<List<CaseModel>>(data);
 
         }
@@ -28,7 +28,7 @@ namespace ElevatorAdministrationApplication.Service
             var payload = JsonConvert.SerializeObject(updateCase);
             var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
             var httpClient = new HttpClient();
-            var data = httpClient.PutAsync($"https://agilewebapi.azurewebsites.net/api/case/{id}", httpContent).Result;
+            var data = httpClient.PutAsync($"{ApiUri}{id}", httpContent).Result;
             if (data.IsSuccessStatusCode)
             {
                 return Status.Ok;
@@ -42,7 +42,7 @@ namespace ElevatorAdministrationApplication.Service
             var payload = JsonConvert.SerializeObject(createCase);
             var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
             var httpClient = new HttpClient();
-            var data = httpClient.PostAsync($"https://agilewebapi.azurewebsites.net/api/case", httpContent).Result;
+            var data = httpClient.PostAsync($"{ApiUri}", httpContent).Result;
             if (data.IsSuccessStatusCode)
             {
                 return Status.Ok;

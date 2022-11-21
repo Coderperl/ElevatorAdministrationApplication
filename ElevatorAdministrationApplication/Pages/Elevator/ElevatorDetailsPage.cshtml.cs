@@ -75,6 +75,29 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
             }
 
         }
+        public async Task<IActionResult> OnPostInvokeMethodChangeChangeFloor(int id)
+        {
+            try
+            {
+
+                //byt till din egna iothub connectionstring i IotHub längst upp
+                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
+                var directMethod = new CloudToDeviceMethod("ChangeFloor");
+                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
+                await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
+
+                Id = id;
+                GetElevator(Id);
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
+            }
+            catch
+            {
+                Id = id;
+                GetElevator(Id);
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
+            }
+
+        }
 
         public async Task<IActionResult> OnPostInvokeMethodReset(int id)
         {
