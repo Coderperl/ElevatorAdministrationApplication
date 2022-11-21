@@ -2,6 +2,7 @@ using ElevatorAdministrationApplication.Models.ViewModels;
 using ElevatorAdministrationApplication.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Azure.Devices;
 using Newtonsoft.Json;
 
@@ -16,6 +17,9 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
 
         private readonly IElevatorService _elevatorService;
 
+        public List<SelectListItem> AllFloors { get; set; }
+        public int CurrentFloor { get; set; }
+
         public ElevatorDetailsPageModel(IElevatorService elevatorService)
         {
             _elevatorService = elevatorService;
@@ -28,6 +32,7 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
         {
             Id = id;
             GetElevator(Id);
+            AllFloors = SetAllFloors();
         }
 
         private void GetElevator(int id)
@@ -60,18 +65,18 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
                 //byt till din egna iothub connectionstring i IotHub längst upp
                 using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
                 var directMethod = new CloudToDeviceMethod("ShutDown");
-                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new {id = id}));
+                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
                 await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
 
                 Id = id;
                 GetElevator(Id);
-                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
             }
             catch
             {
                 Id = id;
                 GetElevator(Id);
-                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
             }
 
         }
@@ -107,18 +112,18 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
                 using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
 
                 var directMethod = new CloudToDeviceMethod("Reset");
-                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new {id = id}));
+                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
                 await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
 
                 Id = id;
                 GetElevator(Id);
-                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
             }
             catch
             {
                 Id = id;
                 GetElevator(Id);
-                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
             }
 
 
@@ -131,19 +136,63 @@ namespace ElevatorAdministrationApplication.Pages.Elevator
                 using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
 
                 var directMethod = new CloudToDeviceMethod("DoorAction");
-                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new {id = id}));
+                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id }));
                 await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
 
                 Id = id;
                 GetElevator(Id);
-                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
             }
             catch
             {
                 Id = id;
                 GetElevator(Id);
-                return RedirectToPage("ElevatorDetailsPage", new {id = Id});
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id });
             }
+        }
+
+        public async Task<IActionResult> OnPostDirectMethodChangeFloor(int id, int currentfloor)
+        {
+            try
+            {
+                
+                using ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(IotHub);
+
+                var directMethod = new CloudToDeviceMethod("ChangeFloor");
+                directMethod.SetPayloadJson(JsonConvert.SerializeObject(new { id = id, floor = currentfloor }));
+                await serviceClient.InvokeDeviceMethodAsync("elevatorDevice", directMethod);
+
+                Id = id;
+                GetElevator(Id);
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id, floor = currentfloor });
+            }
+            catch
+            {
+                Id = id;
+                GetElevator(Id);
+                return RedirectToPage("ElevatorDetailsPage", new { id = Id, floor = currentfloor });
+            }
+        }
+        public List<SelectListItem> SetAllFloors()
+        {
+            var list = new List<SelectListItem>();
+
+            list.Add(new SelectListItem
+            {
+                Text = elevator.Floor.ToString(),
+                Value = elevator.Floor.ToString()
+            });
+
+            for (int i = elevator.MinFloor; i <= elevator.MaxFloor; i++)
+            {
+                list.Add(new SelectListItem
+                {
+                    Text = i.ToString(),
+                    Value = i.ToString()
+                });
+            }
+
+            return list;
         }
     }
 }

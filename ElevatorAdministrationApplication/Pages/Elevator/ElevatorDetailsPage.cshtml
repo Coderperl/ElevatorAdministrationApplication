@@ -38,12 +38,16 @@
             </form>
 
             <h2>Floor</h2>
-
-            <select class="mb-2" name="floor" style="width: 100%;">
-                <option value="1">1</option>
-                <option value="2">2</option> 
-                <option value="3">3</option>
-            </select>
+            <form method="post" asp-page-handler="DirectMethodChangeFloor" asp-route-currentfloor="@Model.CurrentFloor" asp-route-id="@Model.elevator.Id">
+                <div class="form-group">
+                    <label asp-for="CurrentFloor" class="control-label">Assign Technician</label>
+                    <select asp-for="CurrentFloor" class="form-control form-select" asp-items="@Model.AllFloors">
+                    </select>
+                    <span asp-validation-for="CurrentFloor" class="field-validation-error"></span>
+                
+                </div>
+                <button  class="btn btn-primary" type="submit">Change Floor</button>
+            </form>
             <a class="btn btn-primary" asp-route-id="@Model.elevator.Id" asp-page="/Cases/CreateCasePage">New Case</a>
         </div>
     </div>
