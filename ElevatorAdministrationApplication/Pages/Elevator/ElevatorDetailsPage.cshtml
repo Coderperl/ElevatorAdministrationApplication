@@ -40,7 +40,7 @@
             <h2>Floor</h2>
             <form method="post" asp-page-handler="DirectMethodChangeFloor" asp-route-currentfloor="@Model.CurrentFloor" asp-route-id="@Model.elevator.Id">
                 <div class="form-group">
-                    <label asp-for="CurrentFloor" class="control-label">Assign Technician</label>
+                    <label asp-for="CurrentFloor" class="control-label">Change floor</label>
                     <select asp-for="CurrentFloor" class="form-control form-select" asp-items="@Model.AllFloors">
                     </select>
                     <span asp-validation-for="CurrentFloor" class="field-validation-error"></span>
