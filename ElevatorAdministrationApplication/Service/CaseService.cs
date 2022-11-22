@@ -12,19 +12,39 @@ namespace ElevatorAdministrationApplication.Service
         private readonly string ApiUri = "https://localhost:7169/api/case/";
         public CaseModel GetCase(int id)
         {
-            var httpClient = new HttpClient();
-            var data = httpClient.GetStringAsync($"{ApiUri}{id}").Result;
-            return JsonConvert.DeserializeObject<CaseModel>(data);
+            CaseModel Case = new CaseModel();
+
+            WebApi api = new WebApi();
+
+            var apiCall = api.apiReturnAsync(ApiUri + id);
+
+            var apiData = apiCall.Result;
+
+            if (apiData.Status == HttpStatusCode.OK)
+            {
+                Case = JsonConvert.DeserializeObject<CaseModel>(apiData.Data);
+            }
+
+            return Case;
         }
 
         public List<CaseModel> GetCases()
         {
-            var httpClient = new HttpClient();
-            var data = httpClient.GetStringAsync($"{ApiUri}").Result;
-            return JsonConvert.DeserializeObject<List<CaseModel>>(data);
+            List<CaseModel> Cases = new List<CaseModel>();
 
+            WebApi api = new WebApi();
+
+            var apiCall = api.apiReturnAsync(ApiUri);
+
+            var apiData = apiCall.Result;
+
+            if (apiData.Status == HttpStatusCode.OK)
+            {
+                Cases = JsonConvert.DeserializeObject<List<CaseModel>>(apiData.Data);
+            }
+
+            return Cases;
         }
-
         public Status UpdateCases(UpdateCaseViewModel updateCase, int id)
         {
             WebApi api = new WebApi();
