@@ -12,20 +12,11 @@ namespace ElevatorAdministrationApplication.Service
         private readonly string ApiUri = "https://localhost:7169/api/elevator/";
         public ElevatorModel GetElevator(int id)
         {
-            ElevatorModel elevator = new ElevatorModel();
+            using var httpClient = new HttpClient();
 
-            WebApi api = new WebApi();
+            var data = httpClient.GetStringAsync($"{ApiUri}{id}").Result;
 
-            var apiCall = api.apiReturnAsync(ApiUri);
-
-            var apiData = apiCall.Result;
-
-            if (apiData.Status == HttpStatusCode.OK)
-            {
-                elevator = JsonConvert.DeserializeObject<ElevatorModel>(apiData.Data);
-                return elevator;
-            }
-            return elevator;
+            return JsonConvert.DeserializeObject<ElevatorModel>(data);
         }
 
         public List<ElevatorModel> GetElevators()
