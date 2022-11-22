@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
+using ElevatorAdministrationApplication.API;
 using ElevatorAdministrationApplication.Models;
 using ElevatorAdministrationApplication.Models.ViewModels;
 using Newtonsoft.Json;
@@ -25,25 +27,24 @@ namespace ElevatorAdministrationApplication.Service
 
         public Status UpdateCases(UpdateCaseViewModel updateCase, int id)
         {
-            var payload = JsonConvert.SerializeObject(updateCase);
-            var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
-            var httpClient = new HttpClient();
-            var data = httpClient.PutAsync($"{ApiUri}{id}", httpContent).Result;
-            if (data.IsSuccessStatusCode)
+            WebApi api = new WebApi();
+
+            var apiCall = api.apiUpdateAsync(ApiUri + id, updateCase);
+            var apiData = apiCall.Result;
+            if (apiData.Status == HttpStatusCode.OK)
             {
                 return Status.Ok;
             }
-
             return Status.Error;
         }
 
         public Status CreateCase(CreateCaseViewModel createCase)
         {
-            var payload = JsonConvert.SerializeObject(createCase);
-            var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
-            var httpClient = new HttpClient();
-            var data = httpClient.PostAsync($"{ApiUri}", httpContent).Result;
-            if (data.IsSuccessStatusCode)
+            WebApi api = new WebApi();
+
+            var apiCall = api.apiPostAsync(ApiUri, createCase);
+            var apiData = apiCall.Result;
+            if (apiData.Status == HttpStatusCode.OK)
             {
                 return Status.Ok;
             }
