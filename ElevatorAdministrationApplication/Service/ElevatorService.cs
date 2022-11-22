@@ -1,7 +1,9 @@
-﻿using ElevatorAdministrationApplication.Models;
+﻿using ElevatorAdministrationApplication.API;
+using ElevatorAdministrationApplication.Models;
 using ElevatorAdministrationApplication.Models.ViewModels;
 using ElevatorAdministrationApplication.Pages.Elevator;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace ElevatorAdministrationApplication.Service
 {
@@ -10,20 +12,38 @@ namespace ElevatorAdministrationApplication.Service
         private readonly string ApiUri = "https://localhost:7169/api/elevator/";
         public ElevatorModel GetElevator(int id)
         {
-            using var httpClient = new HttpClient();
+            ElevatorModel elevator = new ElevatorModel();
 
-            var data = httpClient.GetStringAsync($"{ApiUri}{id}").Result;
+            WebApi api = new WebApi();
 
-            return JsonConvert.DeserializeObject<ElevatorModel>(data);
+            var apiCall = api.apiReturnAsync(ApiUri);
+
+            var apiData = apiCall.Result;
+
+            if (apiData.Status == HttpStatusCode.OK)
+            {
+                elevator = JsonConvert.DeserializeObject<ElevatorModel>(apiData.Data);
+                return elevator;
+            }
+            return elevator;
         }
 
         public List<ElevatorModel> GetElevators()
         {
-            using var httpClient = new HttpClient();
+            List<ElevatorModel> elevators = new List<ElevatorModel>();  
 
-            var data = httpClient.GetStringAsync($"{ApiUri}").Result;
+            WebApi api = new WebApi();
 
-            return JsonConvert.DeserializeObject<List<ElevatorModel>>(data);
+            var apiCall = api.apiReturnAsync(ApiUri);
+
+            var apiData = apiCall.Result;
+
+            if(apiData.Status == HttpStatusCode.OK)
+            {
+                elevators = JsonConvert.DeserializeObject<List<ElevatorModel>>(apiData.Data);
+                return elevators;
+            }
+            return elevators;
         }
     }
 }
