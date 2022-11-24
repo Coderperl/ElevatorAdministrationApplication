@@ -30,7 +30,7 @@ namespace ElevatorAdministrationApplication.Pages.Statistics
         private async Task<ElevatorListViewModel[]> AllElevatorsAsync()
         {
             HttpClient client = new HttpClient();
-            var stream = client.GetStreamAsync("https://agilewebapi.azurewebsites.net/api/Elevator");
+            var stream = client.GetStreamAsync("https://localhost:7169/api/Elevator");
             var data = await JsonSerializer.DeserializeAsync<ElevatorListViewModel[]>(await stream);
 
             return data;
@@ -38,7 +38,7 @@ namespace ElevatorAdministrationApplication.Pages.Statistics
         private async Task<CreateCaseViewModel[]> AllCasesAsync()
         {
             HttpClient client = new HttpClient();
-            var stream = client.GetStreamAsync("https://agilewebapi.azurewebsites.net/api/Case");
+            var stream = client.GetStreamAsync("https://localhost:7169/api/Case");
             var data = await JsonSerializer.DeserializeAsync<CreateCaseViewModel[]>(await stream);
 
             return data;
