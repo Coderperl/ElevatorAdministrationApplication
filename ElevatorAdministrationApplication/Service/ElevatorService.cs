@@ -9,7 +9,7 @@ namespace ElevatorAdministrationApplication.Service
 {
     public class ElevatorService : IElevatorService
     {
-        private readonly string ApiUri = "https://localhost:7169/api/elevator/";
+        private readonly string ApiUri = "http://localhost:7169/api/elevator/";
         public ElevatorModel GetElevator(int id)
         {
             ElevatorModel elevator = new ElevatorModel();

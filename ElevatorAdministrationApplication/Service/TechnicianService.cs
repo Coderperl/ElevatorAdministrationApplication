@@ -7,7 +7,7 @@ namespace ElevatorAdministrationApplication.Service
 {
     public class TechnicianService : ITechnicianService
     {
-        private readonly string ApiUri = "https://localhost:7169/api/technician/";
+        private readonly string ApiUri = "http://localhost:7169/api/technician/";
         public TechnicianModel GetTechnician(int id)
         {
             var httpClient = new HttpClient();
