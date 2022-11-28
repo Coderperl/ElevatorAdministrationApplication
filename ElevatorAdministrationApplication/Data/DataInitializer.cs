@@ -17,12 +17,12 @@ namespace ElevatorAdministrationApplication.Data
             _userManager = userManager;
         }
 
-        public void SeedData()
+        public async Task SeedDataAsync()
         {
             _context.Database.Migrate();
             SeedRoles();
             SeedUser();
-            SeedTechnicians();
+            await SeedTechnicians().ConfigureAwait(false);
         }
 
         private void CreateRoleIfNotExists(string rolename)
@@ -35,12 +35,12 @@ namespace ElevatorAdministrationApplication.Data
 
         private void SeedUser()
         {
-            CreateUserIfNotExist("Per Görtz", "Hejsan123#", new[] { "SecondLine Technician", "Field Technician" });
-            CreateUserIfNotExist("Christoffer Korell", "Hejsan123#", new[] { "SecondLine Technician", "Field Technician" });
-            CreateUserIfNotExist("Amir Husseini", "Hejsan123#", new[] { "SecondLine Technician", "Field Technician" });
-            CreateUserIfNotExist("Fredrik Andreassen", "Hejsan123#", new[] { "SecondLine Technician", "Field Technician" });
-            CreateUserIfNotExist("Joseph O'brien", "Hejsan123#", new[] { "SecondLine Technician", "Field Technician" });
-            CreateUserIfNotExist("Hans TippTopp", "Hejsan123#", new[] { "Field Technician" });
+            CreateUserIfNotExist("Per", "Hejsan123#", new[] { "SecondLine Technician", "Field Technician" });
+            CreateUserIfNotExist("Christoffer", "Hejsan123#", new[] { "SecondLine Technician", "Field Technician" });
+            CreateUserIfNotExist("Amir", "Hejsan123#", new[] { "SecondLine Technician", "Field Technician" });
+            CreateUserIfNotExist("Fredrik", "Hejsan123#", new[] { "SecondLine Technician", "Field Technician" });
+            CreateUserIfNotExist("Joseph", "Hejsan123#", new[] { "SecondLine Technician", "Field Technician" });
+            CreateUserIfNotExist("Hans", "Hejsan123#", new[] { "Field Technician" });
         }
 
         private void CreateUserIfNotExist(string name, string password, string[] roles)
@@ -49,8 +49,7 @@ namespace ElevatorAdministrationApplication.Data
 
             var user = new IdentityUser
             {
-                UserName = name.Split(" ")[0] + "@otis.com",
-                NormalizedUserName = name,
+                UserName = name,
                 Email = name.Split(" ")[0] + "@otis.com",
                 EmailConfirmed = true
             };
@@ -64,7 +63,7 @@ namespace ElevatorAdministrationApplication.Data
             CreateRoleIfNotExists("Field Technician");
         }
 
-        private void SeedTechnicians()
+        private async Task SeedTechnicians()
         {
 
             var techs =
@@ -85,17 +84,16 @@ namespace ElevatorAdministrationApplication.Data
             {
                 foreach (var user in _context.Users)
                 {
-                        if (tech.UserId == user.Id)
-                        {
-                            var name = user.NormalizedUserName.Split("@")[0];
-                            var techmodel = new TechModel();
-                            techmodel.Role = "Field Technician";
-                            techmodel.Name = name;
-                            technicians.Add(techmodel);
-                        }             
+                    if (tech.UserId == user.Id)
+                    {
+                        var techmodel = new TechModel();
+                        techmodel.Role = "Field Technician";
+                        techmodel.Name = user.UserName;
+                        technicians.Add(techmodel);
+                    }
                 }
             }
-            
+
             return technicians;
         }
     }
