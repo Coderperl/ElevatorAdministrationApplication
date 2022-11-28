@@ -9,7 +9,7 @@ namespace ElevatorAdministrationApplication.Service
 {
     public class CaseService :ICaseService
     {
-        private readonly string ApiUri = "https://localhost:7169/api/case/";
+        private readonly string ApiUri = "http://localhost:7169/api/case/";
         public CaseModel GetCase(int id)
         {
             CaseModel Case = new CaseModel();

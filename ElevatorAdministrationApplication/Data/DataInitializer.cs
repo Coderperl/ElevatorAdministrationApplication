@@ -65,17 +65,19 @@ namespace ElevatorAdministrationApplication.Data
 
         private async Task SeedTechnicians()
         {
-
+            if (_context.Technicians.Count() > 15)
+                return;
             var techs =
-                GenerateTechnicianFromUser();
+            GenerateTechnicianFromUser();
             _context.Technicians.AddRange(techs);
             _context.SaveChanges();
         }
 
+
         private List<TechModel> GenerateTechnicianFromUser()
         {
             var fieldTech = _context.Roles.FirstOrDefault(e => e.NormalizedName == "Field Technician");
-            var fieldTechs = _context.UserRoles.Where(e => e.RoleId == fieldTech.Id);
+            var fieldTechs = _context.UserRoles.Where(e => e.RoleId == fieldTech.Id).ToList();
 
 
             List<TechModel> technicians = new List<TechModel>();
