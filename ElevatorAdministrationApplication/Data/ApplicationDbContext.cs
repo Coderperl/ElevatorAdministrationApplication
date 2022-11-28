@@ -11,5 +11,6 @@ namespace ElevatorAdministrationApplication.Data
         {
         }
         public DbSet<ElevatorAdministrationApplication.Models.CaseModel> CaseModel { get; set; }
+        public DbSet<TechModel> Technicians { get; set; }
     }
 }

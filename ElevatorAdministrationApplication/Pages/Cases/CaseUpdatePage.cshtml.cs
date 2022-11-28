@@ -111,7 +111,7 @@ namespace ElevatorAdministrationApplication.Pages.Cases
         public List<SelectListItem> SetAllTechnicians()
         {
             var list = new List<SelectListItem>();
-            var t = _technicianService.GetTechnicians();
+            var t = _technicianService.GetTechnicians().Where(tech => tech.Role == "Field Technician");
             list.Add(new SelectListItem
             { 
                 Text = "Select Technician",
