@@ -1,13 +1,16 @@
 using ElevatorAdministrationApplication.Models.ViewModels;
 using ElevatorAdministrationApplication.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Azure.Devices;
 using Newtonsoft.Json;
+using System.Data;
 
 namespace ElevatorAdministrationApplication.Pages.Elevator
 {
+    [Authorize(Roles = "SecondLine Technician, Field Technician")]
     [BindProperties]
     public class ElevatorDetailsPageModel : PageModel
     {

@@ -1,12 +1,15 @@
 using ElevatorAdministrationApplication.Models;
 using ElevatorAdministrationApplication.Models.ViewModels;
 using ElevatorAdministrationApplication.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
 
 namespace ElevatorAdministrationApplication.Pages.Cases
 {
+    [Authorize(Roles = "SecondLine Technician, Field Technician")]
     [BindProperties]
     public class CreateCasePageModel : PageModel
     {
