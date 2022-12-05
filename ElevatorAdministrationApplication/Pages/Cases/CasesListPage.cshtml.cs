@@ -2,12 +2,15 @@ using ElevatorAdministrationApplication.Data;
 using ElevatorAdministrationApplication.Models;
 using ElevatorAdministrationApplication.Models.ViewModels;
 using ElevatorAdministrationApplication.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using System.Data;
 
 namespace ElevatorAdministrationApplication.Pages.Cases
 {
+    [Authorize(Roles = "SecondLine Technician, Field Technician")]
     public class CasesListPageModel : PageModel
     {
         private readonly ApplicationDbContext _context;

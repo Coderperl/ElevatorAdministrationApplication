@@ -1,11 +1,13 @@
 using ElevatorAdministrationApplication.Models;
 using ElevatorAdministrationApplication.Models.ViewModels;
 using ElevatorAdministrationApplication.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ElevatorAdministrationApplication.Pages.Cases
 {
+    [Authorize(Roles="SecondLine Technician, Field Technician")]
     public class CaseDetailsPageModel : PageModel
     {
         private readonly ICaseService _caseService;

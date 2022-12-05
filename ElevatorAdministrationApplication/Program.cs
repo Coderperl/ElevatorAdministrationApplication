@@ -27,7 +27,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddTransient<DataInitializer>();
 builder.Services.AddRazorPages();
-
+builder.Services.AddMvc().AddRazorPagesOptions(options => options.Conventions.AddPageRoute("/Elevator/ElevatorsListPage", ""));
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

@@ -2,14 +2,17 @@ using ElevatorAdministrationApplication.Models;
 using ElevatorAdministrationApplication.Models.ViewModels;
 using ElevatorAdministrationApplication.Service;
 using Google.DataTable.Net.Wrapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NuGet.Protocol;
 using System;
+using System.Data;
 using System.Text.Json;
 
 namespace ElevatorAdministrationApplication.Pages.Statistics
 {
+    [Authorize(Roles = "SecondLine Technician, Field Technician")]
     public class StatisticsPageModel : PageModel
     {
         private readonly ICaseService _caseService;
@@ -30,7 +33,7 @@ namespace ElevatorAdministrationApplication.Pages.Statistics
         private async Task<ElevatorListViewModel[]> AllElevatorsAsync()
         {
             HttpClient client = new HttpClient();
-            var stream = client.GetStreamAsync("https://localhost:7169/api/Elevator");
+            var stream = client.GetStreamAsync("http://localhost:7169/api/Elevator");
             var data = await JsonSerializer.DeserializeAsync<ElevatorListViewModel[]>(await stream);
 
             return data;
@@ -38,7 +41,7 @@ namespace ElevatorAdministrationApplication.Pages.Statistics
         private async Task<CreateCaseViewModel[]> AllCasesAsync()
         {
             HttpClient client = new HttpClient();
-            var stream = client.GetStreamAsync("https://localhost:7169/api/Case");
+            var stream = client.GetStreamAsync("http://localhost:7169/api/Case");
             var data = await JsonSerializer.DeserializeAsync<CreateCaseViewModel[]>(await stream);
 
             return data;
