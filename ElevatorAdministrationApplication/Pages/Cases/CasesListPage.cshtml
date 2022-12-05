@@ -1,0 +1,29 @@
+﻿@page
+@model ElevatorAdministrationApplication.Pages.Cases.CasesListPageModel
+@{
+    ViewData["Title"] = "All Cases";
+}
+<h1>All Cases </h1>
+<table class="table">
+    <a class="btn btn-primary" asp-page="/Cases/CreateCasePage" >New Case</a>
+    <tr>
+        <th>Case</th>
+        <th>Status</th>
+        <th>Assigned Technician</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Edit case</th>
+    </tr>
+
+    @foreach (var Case in Model.Cases)
+    {
+        <tr>
+            <td><a asp-page="/Cases/CaseDetailsPage" asp-route-id="@Case.Id">@Case.Name</a></td>
+            <td>@Case.Status</td>
+            <td>@Case.Technician.Name</td>
+            <td>@Case.CaseCreated</td>
+            <td>@Case.CaseEnded</td>
+            <td><a asp-page="/Cases/CaseUpdatePage" asp-route-id="@Case.Id">Edit</a></td>
+        </tr>
+    }
+</table>

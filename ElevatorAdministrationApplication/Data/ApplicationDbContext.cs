@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ElevatorAdministrationApplication.Models;
 
 namespace ElevatorAdministrationApplication.Data
 {
@@ -9,5 +10,11 @@ namespace ElevatorAdministrationApplication.Data
             : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
+        public DbSet<ElevatorAdministrationApplication.Models.CaseModel> CaseModel { get; set; }
+        public DbSet<TechModel> Technicians { get; set; }
     }
 }

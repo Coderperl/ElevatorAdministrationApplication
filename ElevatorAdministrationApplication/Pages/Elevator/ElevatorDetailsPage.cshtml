@@ -1,0 +1,82 @@
+﻿@page
+@model ElevatorAdministrationApplication.Pages.Elevator.ElevatorDetailsPageModel
+@{
+}
+
+@if(Model.Id != 0){
+    <div class="d-flex justify-content-around">
+        <div class="flex-row w-auto">
+            <h1>@Model.elevator.Name</h1>
+
+            <h2>Commands</h2>
+            <div style="width: 350px">
+                <form method="post" asp-page-handler="InvokeMethodReset" asp-route-id="@Model.elevator.Id">
+                    <div class="d-flex justify-content-between">
+                        <p class="m-2">Reset</p>
+                        <label class="switch">
+                            <input type="checkbox" checked="@Model.elevator.Reboot" onchange="this.form.submit()" />
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </form>
+                <form method="post" asp-page-handler="InvokeMethodShutDown" asp-route-id="@Model.elevator.Id">
+                    <div class="d-flex justify-content-between">
+                        @if (Model.elevator.ShutDown)
+                        {
+                            <p class="m-2">Turn on</p>
+                        } else {
+                            <p class="m-2">Turn off</p>
+                        }
+                        <label class="switch">
+                            <input type="checkbox" checked="@Model.elevator.ShutDown" onchange="this.form.submit()" />
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </form>
+                <form method="post" asp-page-handler="InvokeDirectMethodDoorAction" asp-route-id="@Model.elevator.Id">
+                    <div class="d-flex justify-content-between">
+                        @if(Model.elevator.Door){
+                            <p class="m-2">Close doors</p>
+                        } else {
+                            <p class="m-2">Open doors</p>
+                        }
+                        <label class="switch">
+                            <input type="checkbox" checked="@Model.elevator.Door" onchange="this.form.submit()" />
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </form>
+
+                <h2>Floor</h2>
+                <form method="post" asp-page-handler="DirectMethodChangeFloor" asp-route-currentfloor="@Model.CurrentFloor" asp-route-id="@Model.elevator.Id">
+                    <div class="form-group">
+                        <label asp-for="CurrentFloor" class="control-label">Change floor</label>
+                        <select asp-for="CurrentFloor" class="form-control form-select" asp-items="@Model.AllFloors">
+                        </select>
+                        <span asp-validation-for="CurrentFloor" class="field-validation-error"></span>
+
+                    </div>
+                    <button class="btn btn-primary" type="submit">Change Floor</button>
+                </form>
+                <a class="btn btn-primary" asp-route-id="@Model.elevator.Id" asp-page="/Cases/CreateCasePage">New Case</a>
+            </div>
+        </div>
+        <div class="flex-row">
+            <h1>Details</h1>
+
+            <h2>Address</h2>
+            <p>@Model.elevator.Address</p>
+
+            <h2>Last inspected</h2>
+            <p>@Model.elevator.LastInspection.Year-@Model.elevator.LastInspection.Month-@Model.elevator.LastInspection.Day</p>
+
+            <h2>Next inspection</h2>
+            <p>@Model.elevator.NextInspection.Year-@Model.elevator.NextInspection.Month-@Model.elevator.NextInspection.Day</p>
+
+            <h2>Maximum weight</h2>
+            <p>@Model.elevator.MaximumWeight Kg</p>
+        </div>
+    </div>
+} else {
+    <h1>Elevator does not exist</h1>
+}

@@ -1,0 +1,65 @@
+﻿@page
+@model ElevatorAdministrationApplication.Pages.Cases.CaseUpdatePageModel
+@{
+}
+<h1>Edit</h1>
+
+<h4>CaseModel</h4>
+<hr />
+
+<div class="row mb-2">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" disabled="disabled" />                
+            </div>
+            <div class="form-group">
+                <label asp-for="Elevator.Name" class="control-label">Elevator</label>
+                <input asp-for="Elevator.Name" class="form-control" disabled="disabled" />                
+            </div>
+            <div class="form-group">
+                <label asp-for="Technician.Id" class="control-label">Assign Technician</label>
+                <select asp-for="Technician.Id" class="form-control form-select" asp-items="@Model.AllTechnicians">
+                </select>
+                <span asp-validation-for="Technician.Id" class="field-validation-error"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Status">Case Status</label>
+                <select class="form-control form-select" asp-for="Status" asp-items="@Model.AllStatus">
+                </select>
+                <span asp-validation-for="Status" class="field-validation-error"></span>
+            </div>            
+            <div class="form-group">
+                <label asp-for="Comment">Comment</label>                
+                <textarea class="form-control" asp-for="Comment"></textarea>
+                <span asp-validation-for="Comment" class="field-validation-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <label class="fst-italic" asp-for="Comments">Latest Comments</label>
+        <div class="p-4 mb-3 bg-light rounded">
+            @foreach (var item in Model.Comments)
+            {
+                <p class="mb-0">@item.Id- @item.Issue</p>
+            }
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./CasesListPage">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

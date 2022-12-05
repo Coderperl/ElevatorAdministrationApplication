@@ -1,0 +1,73 @@
+﻿@page
+@model ElevatorAdministrationApplication.Pages.Statistics.StatisticsPageModel
+@{
+}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div class="row mb-2">
+    <div class="col-md-6" id="chart_div"></div>
+    <div class="col-md-6" id="line_chart_div"></div>
+</div>
+<script type="text/javascript">
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', { 'packages': ['corechart', 'bar'] });
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    function drawChart() {
+
+        var jsonData = $.ajax({
+            type: "GET",
+            url: '@Url.Page("StatisticsPage", "ElevatorsStatus")',
+            dataType: "json",
+            async: false
+        }).responseText;
+
+        var jsonData1 = $.ajax({
+            type: "GET",
+            url: '@Url.Page("StatisticsPage", "CasesStatus")',
+            dataType: "json",
+            async: false
+        }).responseText;
+
+        // Create the data table.
+        var data = new google.visualization.DataTable(jsonData);
+        var data1 = new google.visualization.DataTable(jsonData1);
+        // Set chart options
+        var options = {
+            title: 'Elevators Status',
+            width: 600,
+            height: 400,            
+            vAxis: {
+                title: 'Nr of Elevators'
+            },
+            //pieSliceText: 'value',
+            colors: ['#31B404', '#DF0101']
+        };
+        var options1 = {
+            title: 'Cases Status',
+            width: 700,
+            height: 400,
+            vAxis: {
+                title: 'Nr of Cases'
+            },
+            colors: ['#3355ff', '#DF0101', '#31B404'],
+            pieSliceText: 'value'
+        };
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        var chart1 = new google.visualization.PieChart(document.getElementById('line_chart_div'));
+        chart.draw(data, options);
+        chart1.draw(data1, options1);
+    }
+</script>
+
+
+
+
+
+

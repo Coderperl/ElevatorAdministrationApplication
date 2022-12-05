@@ -1,0 +1,35 @@
+﻿@page
+@model ElevatorAdministrationApplication.Pages.Elevator.ElevatorsPageModel
+@{
+}
+<div>
+    <h1>Elevators</h1>
+    <div class="text-center">
+        <table class="table table-bordered">
+            <tbody>
+                @foreach (var elevator in Model.Elevators)
+                {
+                    <tr>
+                        <td>
+                            <a asp-page="ElevatorDetailsPage" asp-route-id="@elevator.Id">
+                                @elevator.Name
+                            </a>
+                        </td>
+                        @if (elevator.ElevatorStatus == "Active")
+                        {
+                            <td class="bg-success">
+                                @elevator.ElevatorStatus
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="bg-danger">
+                                @elevator.ElevatorStatus
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

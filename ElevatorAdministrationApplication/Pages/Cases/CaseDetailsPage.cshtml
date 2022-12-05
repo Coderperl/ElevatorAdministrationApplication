@@ -1,0 +1,53 @@
+﻿@page
+@model ElevatorAdministrationApplication.Pages.Cases.CaseDetailsPageModel
+@{
+}
+
+@if(Model.Id != 0) {
+    <h4>Case information</h4>
+    <div class="border-1 border-dark">
+        <span><strong>Case number</strong></span>
+        <div class="mail-address">@Model.Id</div>
+        <div class="address-content">
+            <span class="font-weight-bold"><strong>Name</strong></span>
+            <div class="mail-address">@Model.Name</div>
+        </div>
+        <div class="phone-content">
+            <span> <strong>Elevator</strong></span>
+            <div class="phone-number">@Model.Elevator.Name</div>
+        </div>
+        <div class="address-content">
+            <span><strong>Assigned technician</strong></span>
+            <div class="mail-address">@Model.Technician.Name</div>
+        </div>
+        <div class="address-content">
+            <span><strong>Comments</strong></span>
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="mail-address">@comment.Issue</div>
+            }
+        </div>
+        <div class="address-content">
+            <span><strong>Status</strong></span>
+            <div class="mail-address">@Model.Status</div>
+        </div>
+        <div class="address-content">
+            <span><strong>Created by</strong></span>
+            <div class="mail-address">@Model.CreatedBy</div>
+        </div>
+
+        <div class="email-content">
+            <span><strong>Start date</strong></span>
+            <div>@Model.CaseCreated</div>
+        </div>
+        <div>
+            <span><strong>End date</strong></span>
+            <div class="birth-date">@Model.CaseEnded</div>
+        </div>
+
+    </div>
+    <td><a class="btn btn-primary" asp-page="/Cases/CaseUpdatePage" asp-route-id="@Model.Id">Edit</a></td>
+} else {
+    <h1>Case does not exist</h1>
+}
+

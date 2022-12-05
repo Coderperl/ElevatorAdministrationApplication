@@ -1,0 +1,48 @@
+﻿@page
+@model ElevatorAdministrationApplication.Pages.Cases.CreateCasePageModel
+@{
+}
+<h1>New Case</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Name">Case Name</label>
+        <input class="form-control" asp-for="Name">
+        <span asp-validation-for="Name" class="field-validation-error error-text"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="TechnicianId">Assign Technician</label>
+        <select class="form-control" asp-for="TechnicianId" asp-items="@Model.AllTechnicians">
+        </select>
+        <span asp-validation-for="TechnicianId" class="field-validation-error"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ElevatorId">Elevator</label>
+        <select class="form-control" asp-for="ElevatorId" asp-items="@Model.AllElevators">
+        </select>
+        <span asp-validation-for="ElevatorId" class="field-validation-error"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Status">Case Status</label>
+        <select class="form-control" asp-for="Status" asp-items="@Model.AllStatus">
+        </select>
+        <span asp-validation-for="Status" class="field-validation-error"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CaseCreated">Start Date</label>
+        <input class="form-control" asp-for="CaseCreated">
+        <span asp-validation-for="CaseCreated" class="field-validation-error error-text"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CaseEnded">End Date</label>
+        <input class="form-control" asp-for="CaseEnded">
+        <span asp-validation-for="CaseEnded" class="field-validation-error error-text"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Comment">Issue</label>
+        <input class="form-control" asp-for="Comment.Issue">
+        <span asp-validation-for="Comment" class="field-validation-error error-text"></span>
+    </div>
+
+    <button class="btn btn-primary btn-round" type="submit" class="btn">Save</button>
+</form>
